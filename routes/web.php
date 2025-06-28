@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\TakeDB;
-Route::get("/table",[TakeDB::class,"index"]);
+use App\Http\Controllers\BookController;
+
+Route::get("/table", [BookController::class, "index"]);
 Route::get('/{show}', [UserController::class, 'index']);
