@@ -23,7 +23,7 @@
 6. Ожидайте сборки контейнеров
 7. Зайдите в контейнер app:
    ```shell
-   docker compose exec -ti app /bin/bash
+   docker compose exec -ti app sh
    ```
 8. Введите команду
    ```shell

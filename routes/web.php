@@ -12,7 +12,5 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return 'welcome';
-});
+use App\Http\Controllers\UserController;
+Route::get('/{show}', [UserController::class, 'index']);
