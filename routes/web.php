@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +12,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TakeDB;
+Route::get("/table",[TakeDB::class,"index"]);
 Route::get('/{show}', [UserController::class, 'index']);
