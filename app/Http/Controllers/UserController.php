@@ -7,7 +7,7 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function Index(string $show): View
+    public function index(string $show): View
     {
         return view('user', ['show' => $show]);
     }
