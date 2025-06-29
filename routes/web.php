@@ -18,3 +18,6 @@ use App\Http\Controllers\BookController;
 
 Route::get("/table", [BookController::class, "index"]);
 Route::get('/{show}', [UserController::class, 'index']);
+Route::get('/', function () {
+    return 'Главная страница работает!';
+});

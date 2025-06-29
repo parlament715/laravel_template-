@@ -13,7 +13,7 @@ class BookControllerTest extends TestCase
     /** @test */
     public function it_shows_books_page()
     {
-        $response = $this->get('/books'); // Проверь маршрут
+        $response = $this->get('/table'); // Проверь маршрут
 
         $response->assertStatus(200); // Страница доступна
         $response->assertSee('Книги'); // Проверка заголовка
@@ -29,9 +29,9 @@ class BookControllerTest extends TestCase
             'published_at' => '2020-01-01',
         ]);
 
-        $response = $this->get('/books');
+        $response = $this->get('/table');
 
-        $response->assertSee('Тестовая книга');
+        $response->assertSee('Тестовая книга',False);
         $response->assertSee('Иван Иванов');
         $response->assertSee('2020-01-01');
     }
