@@ -16,8 +16,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 
-Route::get("/books", [BookController::class, "index"]);
-Route::get('/{show}', [UserController::class, 'index']);
+Route::resource("books", BookController::class);
 Route::get('/', function () {
     return 'Главная страница работает!';
 });
