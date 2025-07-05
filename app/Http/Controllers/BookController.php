@@ -15,11 +15,18 @@ class BookController extends Controller
 
     public function store(Request $request)
     {
-        Book::create([
-            "title" => $request->title,
-            "author" => $request->author,
-            "published_at" => $request->published_at,
-        ]);
+        $validated = collect($request->validate([
+            'title' => 'required|string|unique:books,title|max:255',
+            'author' => 'required|string|max:255',
+            "published_at" => "required|date"
+        ], [
+            'title.required' => 'Поле "Название" обязательно для заполнения.',
+            'title.unique' => 'Книга с таким названием уже существует.',
+            'author.required' => 'Пожалуйста, укажите автора.',
+            'published_at.required' => 'Дата публикации обязательна.',
+            'published_at.date' => 'Введите корректную дату.',
+        ]));
+        Book::create($validated->only(["title","author","published_at"])->toArray());
         return redirect()->route('books.index');
     }
 
@@ -30,7 +37,19 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book)
     {
-        $book->update($request->only(['title', 'author']));
+        $validated = collect($request->validate([
+            'title' => 'required|string|unique:books,title|max:255',
+            'author' => 'required|string|max:255',
+            "published_at" => "required|date"
+        ], [
+            'title.required' => 'Поле "Название" обязательно для заполнения.',
+            'title.unique' => 'Книга с таким названием уже существует.',
+            'author.required' => 'Пожалуйста, укажите автора.',
+            'published_at.required' => 'Дата публикации обязательна.',
+            'published_at.date' => 'Введите корректную дату.',
+        ]));
+        $book->update($validated->only(['title', 'author', "published_at"])->toArray());
+
         return redirect()->route('books.index');
     }
 
@@ -39,6 +58,7 @@ class BookController extends Controller
         $book->delete();
         return redirect()->route('books.index');
     }
+
     public function index()
     {
         $books = Book::paginate(10);
