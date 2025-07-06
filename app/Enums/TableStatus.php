@@ -1,8 +1,10 @@
+<?php
+
 namespace App\Enums;
 
-enum TableStatus: string
+enum TableStatus: int
 {
-case Regular = 'обычный';
-case Premium = 'премиум';
-case VIP = 'вип';
+    case REGULAR = 0;
+    case VIP = 1;
+    case PREMIUM = 2;
 }
