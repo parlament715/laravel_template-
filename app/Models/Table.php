@@ -14,24 +14,26 @@ class Table extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         "table_number",
         "status",
         "number_of_seats",
-        "branch"
+        "branch_id"
     ];
     protected $casts = [
         'status' => TableStatus::class,
     ];
 
-    public function branches() : BelongsTo
+    public function branches(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }
 
-    public function facilities() : BelongsToMany
+    public function facilities(): BelongsToMany
     {
-        return $this->belongsToMany(Facility::class,"facility_tables","table_id","facility_id");
+        return $this->belongsToMany(Facility::class, "facility_tables", "table_id", "facility_id");
     }
 
 }

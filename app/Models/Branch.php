@@ -11,12 +11,14 @@ class Branch extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         "name",
         "address"
     ];
 
-    public function tables() : HasMany
+    public function tables(): HasMany
     {
         return $this->hasMany(Table::class);
     }

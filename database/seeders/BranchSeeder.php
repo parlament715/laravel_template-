@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Branch;
+use App\Models\Table;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,6 @@ class BranchSeeder extends Seeder
      */
     public function run(): void
     {
-
+        $branches = Branch::factory()->count(random_int(3, 7))->create();
     }
 }

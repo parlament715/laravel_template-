@@ -12,12 +12,14 @@ class Facility extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        "name"
+        "name",
     ];
 
-    public function tables() : BelongsToMany
+    public function tables(): BelongsToMany
     {
-        return $this->belongsToMany(Table::class,"facility_tables","facility_id","table_id");
+        return $this->belongsToMany(Table::class, "facility_tables", "facility_id", "table_id");
     }
 }

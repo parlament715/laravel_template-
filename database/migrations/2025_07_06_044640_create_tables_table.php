@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -16,7 +15,8 @@ return new class extends Migration
             $table->integer("table_number");
             $table->unsignedTinyInteger("status");
             $table->integer("number_of_seats");
-            $table->foreignId("branch")->constrained("branches")->onDelete("cascade");
+            $table->foreignId("branch_id")->constrained("branches")->onDelete("cascade");
+            $table->unique(['table_number', 'branch_id']);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::drop('tables');
+        Schema::dropIfExists('tables');
     }
 };
