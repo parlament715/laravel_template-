@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookCreateRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
-use Ramsey\Collection\Collection;
 
 class BookController extends Controller
 {
@@ -13,20 +14,9 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(BookCreateRequest $request)
     {
-        $validated = collect($request->validate([
-            'title' => 'required|string|unique:books,title|max:255',
-            'author' => 'required|string|max:255',
-            "published_at" => "required|date"
-        ], [
-            'title.required' => 'Поле "Название" обязательно для заполнения.',
-            'title.unique' => 'Книга с таким названием уже существует.',
-            'author.required' => 'Пожалуйста, укажите автора.',
-            'published_at.required' => 'Дата публикации обязательна.',
-            'published_at.date' => 'Введите корректную дату.',
-        ]));
-        Book::create($validated->only(["title","author","published_at"])->toArray());
+        Book::create($request->only(["title","author","published_at"])->toArray());
         return redirect()->route('books.index');
     }
 
@@ -35,20 +25,9 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(BookUpdateRequest $request, Book $book)
     {
-        $validated = collect($request->validate([
-            'title' => 'required|string|unique:books,title|max:255',
-            'author' => 'required|string|max:255',
-            "published_at" => "required|date"
-        ], [
-            'title.required' => 'Поле "Название" обязательно для заполнения.',
-            'title.unique' => 'Книга с таким названием уже существует.',
-            'author.required' => 'Пожалуйста, укажите автора.',
-            'published_at.required' => 'Дата публикации обязательна.',
-            'published_at.date' => 'Введите корректную дату.',
-        ]));
-        $book->update($validated->only(['title', 'author', "published_at"])->toArray());
+        $book->update($request->only(['title', 'author', "published_at"])->toArray());
 
         return redirect()->route('books.index');
     }
@@ -61,8 +40,7 @@ class BookController extends Controller
 
     public function index()
     {
-        $books = Book::paginate(10);
-        return view("books.index", ["books" => $books]);
+        return view("books.index", ["books" => Book::paginate(10)]);
     }
 
 }

@@ -9,7 +9,7 @@
     @error('author')
     <div style="color:red">{{$message}}</div>
     @enderror
-    Дата: <input  name="published_at" value="{{ $book->published_at }}" required><br>
+    Дата: <input type="date" name="published_at" value="{{ $book->published_at }}" required><br>
     @error('published_at')
     <div style="color:red">{{$message}}</div>
     @enderror

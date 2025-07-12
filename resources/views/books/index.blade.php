@@ -16,96 +16,71 @@
     <!-- Дополнительные стили -->
     @stack('styles')
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col">
-<!-- Хедер -->
-<header class="bg-white shadow">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-        <a href="{{ url('/') }}" class="text-xl font-bold text-indigo-600">
-            {{ config('app.name', 'Laravel') }}
-        </a>
+<section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+    <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-4 py-3">Название</th>
+                        <th scope="col" class="px-4 py-3">Автор</th>
+                        <th scope="col" class="px-4 py-3">Дата публикации</th>
+                        <th scope="col" class="px-4 py-3">
+                            <span class="sr-only">Actions</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="border-b dark:border-gray-700">
+                        @foreach($books as $book)
+                        <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $book->title }}</th>
+                        <td class="px-4 py-3">{{ $book->author }}</td>
+                        <td class="px-4 py-3">{{ $book->published_at }}</td>
+                        <td class="px-4 py-3 flex items-center justify-end">
+                            <button id="apple-imac-27-dropdown-button" data-dropdown-toggle="apple-imac-27-dropdown" class="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
+                                <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                            </button>
+                            <div id="apple-imac-27-dropdown" class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
+                                    <li>
+                                        <form action="{{ route('books.edit', $book) }}" method="GET">
+                                            @csrf
+                                            @method('GET')
+                                            <button type="submit" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                                Изменить
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('books.destroy', $book) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+                                                Удалить
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
 
-        <nav class="hidden md:block">
-            <ul class="flex space-x-6">
-                <li><a href="/" class="hover:text-indigo-500">Главная</a></li>
-                <li><a href="#" class="hover:text-indigo-500">О нас</a></li>
-                <li><a href="#" class="hover:text-indigo-500">Контакты</a></li>
-            </ul>
-        </nav>
+                            </div>
+                        </td>
 
-        <!-- Мобильное меню (Flowbite) -->
-        <button data-collapse-toggle="mobile-menu" type="button"
-                class="md:hidden text-gray-500 hover:text-gray-600 focus:outline-none"
-                aria-controls="mobile-menu" aria-expanded="false">
-            <span class="sr-only">Открыть меню</span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-        </button>
-    </div>
-
-    <!-- Мобильное меню (скрыто по умолчанию) -->
-    <div class="hidden md:hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Главная</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">О
-                нас</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Контакты</a>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+            {{ $books->links() }}
         </div>
     </div>
-</header>
-
-<!-- Основной контент -->
-<main class="flex-grow container mx-auto px-4 py-8">
-    @yield('content')
-</main>
-<button type="button"
-        class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-    Purple to Pink
-</button>
-<!-- Футер -->
-<footer class="bg-gray-800 text-white py-6">
-    <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. Все права защищены.
-            </div>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-indigo-300">Политика конфиденциальности</a>
-                <a href="#" class="hover:text-indigo-300">Условия использования</a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- Дополнительные скрипты -->
-@stack('scripts')
-
-<!-- Инициализация Flowbite компонентов -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Инициализация мобильного меню
-        const mobileMenuButton = document.querySelector('[data-collapse-toggle="mobile-menu"]');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', function () {
-                mobileMenu.classList.toggle('hidden');
-                const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-                mobileMenuButton.setAttribute('aria-expanded', !expanded);
-            });
-        }
-    });
-</script>
-</body>
-</html>
+</section>
+{{--<body class="bg-gray-50 min-h-screen flex flex-col">--}}
 {{--<h1>Books</h1>--}}
 {{--<a href="{{ route('books.create') }}">Добавить книгу</a>--}}
-{{--<body>--}}
-{{--<button type="button" class="text-white bg-blue-700 hover:bg-blue-800 px-5 py-2.5 rounded-lg">--}}
-{{--    Flowbite Button--}}
-{{--</button>--}}
 {{--<table border="1">--}}
 {{--    <thead>--}}
 {{--        <th>Название</th>--}}
@@ -130,22 +105,29 @@
 {{--            </td>--}}
 {{--        </tr>--}}
 {{--    @endforeach--}}
+
 {{--    </tbody>--}}
+
 {{--</table>--}}
-{{--</body>--}}
-{{--<style>--}}
-{{--    .pagination {--}}
-{{--        list-style: none;--}}
-{{--        padding-left: 0;--}}
-{{--        /*display: flex;*/--}}
-{{--        gap: 0.5rem;--}}
-{{--        justify-content: center;--}}
-{{--    }--}}
-
-{{--    .pagination li {--}}
-{{--        display: inline-block;--}}
-{{--    }--}}
-{{--</style>--}}
 
 
-{{--    {{ $books->links('pagination::bootstrap-4') }}--}}
+@stack('scripts')
+
+<!-- Инициализация Flowbite компонентов -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Инициализация мобильного меню
+        const mobileMenuButton = document.querySelector('[data-collapse-toggle="mobile-menu"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+                const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                mobileMenuButton.setAttribute('aria-expanded', !expanded);
+            });
+        }
+    });
+</script>
+</body>
+</html>

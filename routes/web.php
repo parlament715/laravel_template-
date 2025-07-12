@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
+use \App\Http\Controllers\BranchController;
+use \App\Http\Controllers\TableController;
 
 Route::resource("books", BookController::class);
 Route::get('/', function () {

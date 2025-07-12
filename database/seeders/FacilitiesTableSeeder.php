@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Facility;
+use App\Models\FacilityTable;
 use App\Models\Table;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,7 @@ class FacilitiesTableSeeder extends Seeder
             $random_number_facilities = random_int(0, 4);
             if ($random_number_facilities != 0) {
                 foreach (Facility::inRandomOrder()->take($random_number_facilities)->get() as $facility) {
-                    DB::table('facility_tables')->updateOrInsert([
+                    FacilityTable::create([
                         'table_id' => $table->id,
                         'facility_id' => $facility->id
                     ]);

@@ -8,6 +8,20 @@ use App\Models\Table;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
+/**
+ * App\Models\Facility
+ *
+ * @property int $id
+ * @property string $name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Table> $tables
+ * @property-read int|null $tables_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Facility newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Facility newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Facility query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Facility whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Facility whereName($value)
+ * @mixin \Eloquent
+ */
 class Facility extends Model
 {
     use HasFactory;
@@ -20,6 +34,6 @@ class Facility extends Model
 
     public function tables(): BelongsToMany
     {
-        return $this->belongsToMany(Table::class, "facility_tables", "facility_id", "table_id");
+        return $this->belongsToMany(Table::class, "facility_table", "facility_id", "table_id");
     }
 }
