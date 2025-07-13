@@ -16,7 +16,7 @@ class BookController extends Controller
 
     public function store(BookCreateRequest $request)
     {
-        Book::create($request->only(["title","author","published_at"])->toArray());
+        Book::create($request->only(["title","author","published_at"]));
         return redirect()->route('books.index');
     }
 
@@ -27,7 +27,7 @@ class BookController extends Controller
 
     public function update(BookUpdateRequest $request, Book $book)
     {
-        $book->update($request->only(['title', 'author', "published_at"])->toArray());
+        $book->update($request->only(['title', 'author', "published_at"]));
 
         return redirect()->route('books.index');
     }
