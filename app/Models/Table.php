@@ -47,7 +47,7 @@ class Table extends Model
         'status' => TableStatus::class,
     ];
 
-    public function branches(): BelongsTo
+    public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
     }

@@ -16,12 +16,14 @@ class TableSeeder extends Seeder
     public function run(): void
     {
         $branches = Branch::all();
-        foreach ($branches->pluck("id") as $branch_id) {
-            for ($i = 1, $n = rand(5, 20); $i < $n; $i++) {
-                Table::factory()->create([
-                    "branch_id" => $branch_id,
-                    "table_number" => $i,
-                ]);
+        foreach ($branches as $branch) {
+            if ($branch->table()->count() == 0) {
+                for ($i = 1, $n = rand(20, 50); $i < $n; $i++) {
+                    Table::factory()->create([
+                        "branch_id" => $branch->id,
+                        "table_number" => $i,
+                    ]);
+                }
             }
         }
 

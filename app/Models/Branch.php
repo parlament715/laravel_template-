@@ -35,7 +35,7 @@ class Branch extends Model
         "address"
     ];
 
-    public function tables(): HasMany
+    public function table(): HasMany
     {
         return $this->hasMany(Table::class);
     }

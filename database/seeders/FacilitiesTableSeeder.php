@@ -21,7 +21,7 @@ class FacilitiesTableSeeder extends Seeder
             $random_number_facilities = random_int(0, 4);
             if ($random_number_facilities != 0) {
                 foreach (Facility::inRandomOrder()->take($random_number_facilities)->get() as $facility) {
-                    FacilityTable::create([
+                    FacilityTable::firstOrCreate([
                         'table_id' => $table->id,
                         'facility_id' => $facility->id
                     ]);

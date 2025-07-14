@@ -32,7 +32,7 @@ class Facility extends Model
         "name",
     ];
 
-    public function tables(): BelongsToMany
+    public function table(): BelongsToMany
     {
         return $this->belongsToMany(Table::class, "facility_table", "facility_id", "table_id");
     }
