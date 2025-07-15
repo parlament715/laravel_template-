@@ -19,14 +19,6 @@ class BranchResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -37,29 +29,19 @@ class BranchResource extends Resource
                     ->label("Адрес"),
                 Tables\Columns\TextColumn::make("tables.number_od_seats")
                     ->label("Вместимость")
-                    ->getStateUsing(fn (Branch $branch) : int => $branch->table()->pluck("number_of_seats")->sum()),
-            ])
-            ->filters([
-                //
+                    ->getStateUsing(fn(Branch $branch): int => $branch->table()->pluck("number_of_seats")->sum()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                ->label("Изменить"),
+                    ->label("Изменить"),
                 Tables\Actions\Action::make("Открыть")
-                    ->url(fn (Branch $record) => route('filament.admin.resources.tables.index', ['branch' => $record->id]))
+                    ->url(fn(Branch $record) => route('filament.admin.resources.tables.index', ['branch' => $record->id]))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array

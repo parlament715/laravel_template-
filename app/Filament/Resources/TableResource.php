@@ -21,14 +21,6 @@ class TableResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -77,8 +69,6 @@ class TableResource extends Resource
                 request()->query("branch"),
                 fn(Builder $query, $branch_id) => $query->where("branch_id", $branch_id))
             )
-            ->filters([
-            ])
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->label("Изменить"),
@@ -88,13 +78,6 @@ class TableResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
