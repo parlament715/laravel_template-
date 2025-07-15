@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\FacilityTable
@@ -39,12 +40,12 @@ class FacilityTable extends Model
         'facility_id'     // ID удобства из таблицы facilities
     ];
 
-    public function facility()
+    public function facility(): BelongsTo
     {
-        return $this->belongsTo(Facility::class, 'eloquent', 'id');
+        return $this->belongsTo(Facility::class, 'facility_id', 'id');
     }
 
-    public function table()
+    public function table(): BelongsTo
     {
         return $this->belongsTo(Table::class, 'table_id', 'id');
     }
