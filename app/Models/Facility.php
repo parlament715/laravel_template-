@@ -34,6 +34,6 @@ class Facility extends Model
 
     public function table(): BelongsToMany
     {
-        return $this->belongsToMany(Table::class, "facility_table", "facility_id", "table_id");
+        return $this->belongsToMany(Table::class, "facility_table");
     }
 }
