@@ -14,6 +14,6 @@ class BranchSeeder extends Seeder
      */
     public function run(): void
     {
-        $branches = Branch::factory()->count(random_int(10, 20))->create();
+        Branch::factory()->count(random_int(10, 20))->create();
     }
 }

@@ -8,7 +8,6 @@ use Database\Seeders\BookSeeder;
 use Database\Seeders\TableSeeder;
 use Database\Seeders\BranchSeeder;
 use Database\Seeders\FacilitySeeder;
-use Database\Seeders\FacilitiesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +19,6 @@ class DatabaseSeeder extends Seeder
             BranchSeeder::class,
             TableSeeder::class,
             FacilitySeeder::class,
-            FacilitiesTableSeeder::class,
         ]);
     }
 }

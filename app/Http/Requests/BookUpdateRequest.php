@@ -22,7 +22,7 @@ class BookUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|unique:books,title|max:255',
+            'title' => 'required|string|max:255|unique:books,title',
             'author' => 'required|string|max:255',
             "published_at" => "required|date"
         ];

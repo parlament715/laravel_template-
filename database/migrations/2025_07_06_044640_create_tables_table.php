@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->integer("table_number");
             $table->unsignedTinyInteger("status");
             $table->integer("number_of_seats");
-            $table->foreignId("branch_id")->constrained("branches")->onDelete("cascade");
+            $table->foreignId("branch_id")->constrained("branches");
             $table->unique(['table_number', 'branch_id']);
         });
     }
