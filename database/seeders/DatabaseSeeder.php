@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BookSeeder::class,
             BranchSeeder::class,
-            TableSeeder::class,
             FacilitySeeder::class,
+            TableSeeder::class,
         ]);
     }
 }

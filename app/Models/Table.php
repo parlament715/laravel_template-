@@ -52,6 +52,8 @@ class Table extends Model
         return $this->belongsTo(Branch::class);
     }
 
+
+
     public function facility(): BelongsToMany
     {
         return $this->belongsToMany(Facility::class, "facility_table", "table_id", "facility_id");

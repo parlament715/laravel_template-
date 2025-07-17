@@ -6,6 +6,7 @@ use App\Enums\TableStatus;
 use App\Filament\Resources\TableResource\Pages;
 use App\Filament\Resources\TableResource\RelationManagers;
 use App\Models\Table as TableModel;
+use Arr;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -13,6 +14,7 @@ use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Illuminate\Database\Query\Builder;
 
 class TableResource extends Resource
 {
@@ -41,13 +43,13 @@ class TableResource extends Resource
                 Tables\Columns\TextColumn::make("facility.name")->badge(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make("Статус")
-                    ->options(fn () => collect(TableStatus::cases())
-                        ->mapWithKeys(fn ($case) => [$case->value => $case->name])
-                        ->toArray()),
-                Tables\Filters\SelectFilter::make("Удобства")
-                    ->relationship("facility","name")
-//
+                Tables\Filters\SelectFilter::make("status")
+                    ->options(Arr::pluck(TableStatus::cases(), 'name', 'value')),
+                Tables\Filters\SelectFilter::make("facility")
+                    ->relationship("facility","name"),
+                Tables\Filters\Filter::make("number_of_seats")
+                    ->query(fn(Builder $query, array $count)=>
+                    $query->whereIn("number_of_seats","=",$count))
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -72,10 +74,7 @@ class TableResource extends Resource
                     ->required()
                     ->integer(),
                 Forms\Components\Select::make('status')
-                    ->options(fn () => collect(TableStatus::cases())
-                        ->mapWithKeys(fn ($case) => [$case->value => $case->name])
-//                        ->mapWithKeys(fn ($case) => [$case->key => $case->value])
-                    ->toArray())
+                    ->options(Arr::pluck(TableStatus::cases(), 'name', 'value'))
                     ->required(),
                 Forms\Components\TextInput::make('number_of_seats')
                     ->integer()

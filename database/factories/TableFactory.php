@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Facility;
+use App\Models\Table;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Branch;
 
@@ -25,4 +27,16 @@ class TableFactory extends Factory
 
         ];
     }
-}
+
+    public function withFacilities(): self
+    {   $rand_int = rand(0,5);
+        if ($rand_int) {
+            return $this->afterCreating(function (Table $table) {
+                $facilities = Facility::query()->inRandomOrder()->limit(rand(0, 5))->get();
+
+                $table->facility()->attach($facilities);
+                });
+            }
+        return $this;
+        }
+    }
