@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
             $table->integer("table_number");
-            $table->unsignedTinyInteger("status");
-            $table->integer("number_of_seats");
+            $table->unsignedTinyInteger("type");
+            $table->integer("seats_max");
             $table->foreignId("branch_id")->constrained("branches")->onDelete(null);
         });
     }

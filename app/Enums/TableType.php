@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum TableStatus: int
+enum TableType: int
 {
     case REGULAR = 0;
     case VIP = 1;

@@ -21,8 +21,8 @@ class TableFactory extends Factory
     {
         return [
             "table_number" => $this->faker->numberBetween(1, 100),
-            "status" => $this->faker->numberBetween(0, 2),
-            "number_of_seats" => $this->faker->numberBetween(2, 8),
+            "type" => $this->faker->numberBetween(0, 2),
+            "seats_max" => $this->faker->numberBetween(2, 8),
             "branch_id" => Branch::factory(),
 
         ];
@@ -34,7 +34,7 @@ class TableFactory extends Factory
             return $this->afterCreating(function (Table $table) {
                 $facilities = Facility::query()->inRandomOrder()->limit(rand(0, 5))->get();
 
-                $table->facility()->attach($facilities);
+                $table->facilities()->attach($facilities);
                 });
             }
         return $this;

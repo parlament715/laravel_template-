@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\TableStatus;
+use App\Enums\TableType;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use phpDocumentor\Reflection\Types\Collection;
@@ -14,8 +14,8 @@ use phpDocumentor\Reflection\Types\Collection;
  *
  * @property int $id
  * @property int $table_number
- * @property TableStatus $status
- * @property int $number_of_seats
+ * @property TableType $type
+ * @property int $seats_max
  * @property int $branch_id
  * @property-read \App\Models\Branch|null $branches
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Facility> $facility
@@ -39,12 +39,13 @@ class Table extends Model
 
     protected $fillable = [
         "table_number",
-        "status",
-        "number_of_seats",
+        "type",
+        "seats_max",
         "branch_id"
     ];
+
     protected $casts = [
-        'status' => TableStatus::class,
+        'type' => TableType::class,
     ];
 
     public function branch(): BelongsTo
@@ -52,9 +53,7 @@ class Table extends Model
         return $this->belongsTo(Branch::class);
     }
 
-
-
-    public function facility(): BelongsToMany
+    public function facilities(): BelongsToMany
     {
         return $this->belongsToMany(Facility::class, "facility_table", "table_id", "facility_id");
     }

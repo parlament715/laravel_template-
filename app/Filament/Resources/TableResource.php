@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\TableStatus;
+use App\Enums\TableType;
 use App\Filament\Resources\TableResource\Pages;
 use App\Filament\Resources\TableResource\RelationManagers;
 use App\Models\Table as TableModel;
@@ -34,22 +34,21 @@ class TableResource extends Resource
                 Tables\Columns\TextColumn::make('table_number')
                     ->sortable()
                     ->label("Номер стола"),
-                Tables\Columns\TextColumn::make('status')
-                    ->getStateUsing(fn($record) => $record->status->name)
+                Tables\Columns\TextColumn::make('type')
+                    ->getStateUsing(fn($record) => $record->type->name)
                     ->label("Статус"),
-                Tables\Columns\TextColumn::make('number_of_seats')
+                Tables\Columns\TextColumn::make('seats_max')
                     ->sortable()
                     ->label("Количество мест"),
-                Tables\Columns\TextColumn::make("facility.name")->badge(),
+                Tables\Columns\TextColumn::make("facilities.name")->badge(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make("status")
-                    ->options(Arr::pluck(TableStatus::cases(), 'name', 'value')),
-                Tables\Filters\SelectFilter::make("facility")
-                    ->relationship("facility","name"),
-                Tables\Filters\Filter::make("number_of_seats")
-                    ->query(fn(Builder $query, array $count)=>
-                    $query->whereIn("number_of_seats","=",$count))
+                Tables\Filters\SelectFilter::make("type")
+                    ->options(Arr::pluck(TableType::cases(), 'name', 'value')),
+                Tables\Filters\SelectFilter::make("facilities")
+                    ->relationship("facilities", "name"),
+                Tables\Filters\Filter::make("seats_max")
+                    ->query(fn(Builder $query, array $count) => $query->whereIn("seats_max", "=", $count))
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
@@ -73,17 +72,17 @@ class TableResource extends Resource
                 Forms\Components\TextInput::make('table_number')
                     ->required()
                     ->integer(),
-                Forms\Components\Select::make('status')
-                    ->options(Arr::pluck(TableStatus::cases(), 'name', 'value'))
+                Forms\Components\Select::make('type')
+                    ->options(Arr::pluck(TableType::cases(), 'name', 'value'))
                     ->required(),
-                Forms\Components\TextInput::make('number_of_seats')
+                Forms\Components\TextInput::make('seats_max')
                     ->integer()
                     ->required(),
                 Forms\Components\Select::make('branch_id')
-                    ->relationship("branch","name")
+                    ->relationship("branch", "name")
                     ->required(),
-                Forms\Components\CheckboxList::make("facility")
-                    ->relationship("facility","name")
+                Forms\Components\CheckboxList::make("facilities")
+                    ->relationship("facilities", "name")
                     ->required()
                     ->columns(3),
             ]);
@@ -96,14 +95,14 @@ class TableResource extends Resource
                 Infolists\Components\TextEntry::make('id'),
                 Infolists\Components\TextEntry::make('table_number')
                     ->label("Номер стола"),
-                Infolists\Components\TextEntry::make('status')
-                    ->getStateUsing(fn ($record) => $record->status->name)
+                Infolists\Components\TextEntry::make('type')
+                    ->getStateUsing(fn($record) => $record->type->name)
                     ->label("Статус"),
-                Infolists\Components\TextEntry::make("number_of_seats")
+                Infolists\Components\TextEntry::make("seats_max")
                     ->label("Количество мест"),
                 Infolists\Components\TextEntry::make("branch.name")
                     ->label("Название филиала"),
-                Infolists\Components\TextEntry::make("facility.name")
+                Infolists\Components\TextEntry::make("facilities.name")
                     ->badge()
                     ->label("Удобства")
             ]);
