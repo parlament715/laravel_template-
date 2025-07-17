@@ -14,7 +14,7 @@ use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class TableResource extends Resource
 {
@@ -48,7 +48,14 @@ class TableResource extends Resource
                 Tables\Filters\SelectFilter::make("facilities")
                     ->relationship("facilities", "name"),
                 Tables\Filters\Filter::make("seats_max")
-                    ->query(fn(Builder $query, array $count) => $query->whereIn("seats_max", "=", $count))
+                    ->form([
+                        Forms\Components\TextInput::make("seats_max")
+                            ->label("Количество мест (от)"),
+                    ])
+                    ->query(fn($query, array $data) => $query->when($data["seats_max"],
+                        fn($query, $seats_max) => $query->where("seats_max", ">=", $seats_max)
+                    )
+                    )
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
