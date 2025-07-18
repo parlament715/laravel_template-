@@ -28,15 +28,33 @@ class TableFactory extends Factory
         ];
     }
 
-    public function withFacilities(): self
-    {   $rand_int = rand(0,5);
-        if ($rand_int) {
-            return $this->afterCreating(function (Table $table) {
-                $facilities = Facility::query()->inRandomOrder()->limit(rand(0, 5))->get();
-
-                $table->facilities()->attach($facilities);
-                });
-            }
-        return $this;
+    public function forBranch(): self
+    {
+        if (Branch::query()->exists()) {
+            $branch = Branch::query()->inRandomOrder()->first();
+        } else {
+            $branch = Branch::factory();
         }
+
+        return $this->for($branch);
     }
+
+    public function withFacilities(): self
+    {
+        return $this->afterCreating(function (Table $table) {
+            if (Facility::query()->exists()) {
+                $facilities = Facility::query()
+                    ->inRandomOrder()
+                    ->limit(rand(1, 5))
+                    ->get();
+            } else {
+                $facilities = Facility::factory()
+                    ->count(rand(1, 5))
+                    ->create();
+            }
+
+            $table->facilities()->attach($facilities);
+        });
+    }
+
+}

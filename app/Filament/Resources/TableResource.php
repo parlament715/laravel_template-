@@ -15,6 +15,7 @@ use Filament\Infolists\Infolist;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Builder;
+
 class TableResource extends Resource
 {
     protected static ?string $model = TableModel::class;
@@ -48,13 +49,22 @@ class TableResource extends Resource
                     ->relationship("facilities", "name"),
                 Tables\Filters\Filter::make("seats_max")
                     ->form([
-                        Forms\Components\TextInput::make("seats_max")
+                        Forms\Components\TextInput::make("seats_max_акщь")
                             ->label("Количество мест (от)"),
+                        Forms\Components\TextInput::make("seats_max_to")
+                            ->label("Количество мест (до)"),
                     ])
-                    ->query(fn(Builder $query, array $data): Builder => $query->when($data["seats_max"],
-                        fn(Builder $query, $seats_max): Builder => $query->where("seats_max", ">=", $seats_max)
-                    )
-                    )
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when($data["seats_max_from"],
+                                function (Builder $query, $seats_max_from): Builder {
+                                    return $query->where("seats_max", ">=", $seats_max_from);
+                                })
+                            ->when($data["seats_max_to"],
+                                function (Builder $query, $seats_max_to): Builder {
+                                    return $query->where("seats_max", "<=", $seats_max_to);
+                                });
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

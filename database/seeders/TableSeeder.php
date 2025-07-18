@@ -12,12 +12,10 @@ class TableSeeder extends Seeder
 
     public function run(): void
     {
-        foreach (Branch::pluck("id") as $branch_id){
-            Table::factory()
-                ->withFacilities()
-                ->count(rand(10, 30))
-                ->create(["branch_id"=>$branch_id]);
-        }
-
+        Table::factory()
+            ->forBranch()
+            ->withFacilities()
+            ->count(rand(1, 5))
+            ->create();
     }
 }
