@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\TableType;
+use App\Enums\TableTypeEnum;
 use App\Filament\Resources\TableResource\Pages;
 use App\Filament\Resources\TableResource\RelationManagers;
 use App\Models\Table as TableModel;
@@ -35,7 +35,7 @@ class TableResource extends Resource
                     ->sortable()
                     ->label("Номер стола"),
                 Tables\Columns\TextColumn::make('type')
-                    ->getStateUsing(fn($record) => $record->type->name)
+                    ->getStateUsing(fn(TableModel $record) => $record->type->name)
                     ->label("Статус"),
                 Tables\Columns\TextColumn::make('seats_max')
                     ->sortable()
@@ -44,7 +44,7 @@ class TableResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make("type")
-                    ->options(Arr::pluck(TableType::cases(), 'name', 'value')),
+                    ->options(Arr::pluck(TableTypeEnum::cases(), 'name', 'value')),
                 Tables\Filters\SelectFilter::make("facilities")
                     ->relationship("facilities", "name"),
                 Tables\Filters\Filter::make("seats_max")
@@ -56,12 +56,12 @@ class TableResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
-                            ->when($data["seats_max_from"],
-                                function (Builder $query, $seats_max_from): Builder {
+                            ->when(Arr::get($data,"seats_max_from"),
+                                function (Builder $query, int $seats_max_from): Builder {
                                     return $query->where("seats_max", ">=", $seats_max_from);
                                 })
-                            ->when($data["seats_max_to"],
-                                function (Builder $query, $seats_max_to): Builder {
+                            ->when(Arr::get($data,"seats_max_to"),
+                                function (Builder $query, int $seats_max_to): Builder {
                                     return $query->where("seats_max", "<=", $seats_max_to);
                                 });
                     })
@@ -89,7 +89,7 @@ class TableResource extends Resource
                     ->required()
                     ->integer(),
                 Forms\Components\Select::make('type')
-                    ->options(Arr::pluck(TableType::cases(), 'name', 'value'))
+                    ->options(Arr::pluck(TableTypeEnum::cases(), 'name', 'value'))
                     ->required(),
                 Forms\Components\TextInput::make('seats_max')
                     ->integer()
@@ -112,7 +112,7 @@ class TableResource extends Resource
                 Infolists\Components\TextEntry::make('table_number')
                     ->label("Номер стола"),
                 Infolists\Components\TextEntry::make('type')
-                    ->getStateUsing(fn($record) => $record->type->name)
+                    ->getStateUsing(fn(TableModel $record) => $record->type->name)
                     ->label("Статус"),
                 Infolists\Components\TextEntry::make("seats_max")
                     ->label("Количество мест"),

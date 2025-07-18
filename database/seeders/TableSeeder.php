@@ -12,10 +12,12 @@ class TableSeeder extends Seeder
 
     public function run(): void
     {
-        Table::factory()
-            ->forBranch()
-            ->withFacilities()
-            ->count(rand(1, 5))
-            ->create();
+        for ($i = 1; $i <= rand(5, 15); $i++) {
+            Table::factory()
+                ->forBranch()
+                ->withFacilities()
+                ->count(rand(1, 5))
+                ->create();
+        }
     }
 }

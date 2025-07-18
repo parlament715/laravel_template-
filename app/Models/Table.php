@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Enums\TableType;
+use App\Enums\TableTypeEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use phpDocumentor\Reflection\Types\Collection;
@@ -14,7 +14,7 @@ use phpDocumentor\Reflection\Types\Collection;
  *
  * @property int $id
  * @property int $table_number
- * @property TableType $type
+ * @property TableTypeEnum $type
  * @property int $seats_max
  * @property int $branch_id
  * @property-read \App\Models\Branch|null $branches
@@ -45,7 +45,7 @@ class Table extends Model
     ];
 
     protected $casts = [
-        'type' => TableType::class,
+        'type' => TableTypeEnum::class,
     ];
 
     public function branch(): BelongsTo
