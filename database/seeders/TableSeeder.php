@@ -15,12 +15,12 @@ class TableSeeder extends Seeder
             $this->crateTable();
         } else {
             Branch::all()->each(function (Branch $branch) {
-                $this->crateTable($branch);
+                $this->createTable($branch);
             });
         }
     }
 
-    public function crateTable(Branch $branch = null): void
+    public function createTable(Branch $branch = null): void
     {
         Table::factory()
             ->forBranch($branch)
