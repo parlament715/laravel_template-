@@ -28,16 +28,17 @@ class TableFactory extends Factory
         ];
     }
 
-    public function forBranch(): self
+    public function forBranch(Branch $branch = null): self
     {
-        if (Branch::query()->exists()) {
-            $branch = Branch::query()->inRandomOrder()->first();
-        } else {
-            $branch = Branch::factory();
-        }
+        $branch = match (true) {
+            $branch !== null => $branch,
+            Branch::query()->exists() => Branch::query()->inRandomOrder()->first(),
+            default => Branch::factory()
+        };
 
         return $this->for($branch);
     }
+
 
     public function withFacilities(): self
     {

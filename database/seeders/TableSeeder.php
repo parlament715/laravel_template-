@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Table;
 use Illuminate\Database\Seeder;
-use App\Models\Facility;
 use App\Models\Branch;
 
 class TableSeeder extends Seeder
@@ -12,12 +11,22 @@ class TableSeeder extends Seeder
 
     public function run(): void
     {
-        for ($i = 1; $i <= rand(5, 15); $i++) {
-            Table::factory()
-                ->forBranch()
-                ->withFacilities()
-                ->count(rand(1, 5))
-                ->create();
+        if (!Branch::query()->exists()) {
+            $this->crateTable();
+        } else {
+            Branch::all()->each(function (Branch $branch) {
+                $this->crateTable($branch);
+            });
         }
     }
+
+    public function crateTable(Branch $branch = null): void
+    {
+        Table::factory()
+            ->forBranch($branch)
+            ->withFacilities()
+            ->count(rand(1, 5))
+            ->create();
+    }
+
 }

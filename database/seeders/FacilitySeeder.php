@@ -26,7 +26,7 @@ class FacilitySeeder extends Seeder
             '4K Display'
         ];
         foreach ($facilityNames as $facilityName) {
-            Facility::firstOrCreate(["name" => $facilityName]);
+            Facility::factory()->create(["name" => $facilityName]);
         }
     }
 }
