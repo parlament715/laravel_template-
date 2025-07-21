@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BookCreateRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Models\Book;
-use Ramsey\Collection\Collection;
 
 class BookController extends Controller
 {
@@ -13,13 +14,9 @@ class BookController extends Controller
         return view('books.create');
     }
 
-    public function store(Request $request)
+    public function store(BookCreateRequest $request)
     {
-        Book::create([
-            "title" => $request->title,
-            "author" => $request->author,
-            "published_at" => $request->published_at,
-        ]);
+        Book::create($request->only(["title","author","published_at"]));
         return redirect()->route('books.index');
     }
 
@@ -28,9 +25,10 @@ class BookController extends Controller
         return view('books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(BookUpdateRequest $request, Book $book)
     {
-        $book->update($request->only(['title', 'author']));
+        $book->update($request->only(['title', 'author', "published_at"]));
+
         return redirect()->route('books.index');
     }
 
@@ -39,10 +37,10 @@ class BookController extends Controller
         $book->delete();
         return redirect()->route('books.index');
     }
+
     public function index()
     {
-        $books = Book::paginate(10);
-        return view("books.index", ["books" => $books]);
+        return view("books.index", ["books" => Book::paginate(10)]);
     }
 
 }
