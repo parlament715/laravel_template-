@@ -6,7 +6,7 @@ use App\Enums\TableTypeEnum;
 use App\Filament\Resources\TableResource\Pages;
 use App\Filament\Resources\TableResource\RelationManagers;
 use App\Models\Table as TableModel;
-use Arr;
+use Illuminate\support\Arr;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;

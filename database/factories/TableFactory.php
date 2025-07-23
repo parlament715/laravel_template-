@@ -44,18 +44,12 @@ class TableFactory extends Factory
     {
         return $this->afterCreating(function (Table $table) {
             if (Facility::query()->exists()) {
-                $facilities = Facility::query()
-                    ->inRandomOrder()
-                    ->limit(rand(1, 5))
-                    ->get();
-            } else {
-                $facilities = Facility::factory()
-                    ->count(rand(1, 5))
-                    ->create();
+                return Facility::query()->inRandomOrder()->limit(rand(1, 5))->get();
             }
-
-            $table->facilities()->attach($facilities);
+            return Facility::factory()->count(rand(1, 5))->create();
         });
+
+
     }
 
 }

@@ -12,7 +12,7 @@ class TableSeeder extends Seeder
     public function run(): void
     {
         if (!Branch::query()->exists()) {
-            $this->crateTable();
+            $this->createTable();
         } else {
             Branch::all()->each(function (Branch $branch) {
                 $this->createTable($branch);
