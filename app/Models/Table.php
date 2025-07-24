@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use App\Enums\TableTypeEnum;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * App\Models\Table
